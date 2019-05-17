@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <table>
+            <tr>
+                <td></td>
+                <td>商品名称</td>
+                <td>商品单价</td>
+                <td>购买数量</td>
+                <td>操作</td>
+            </tr>
+            <tr v-for="(item, index) in list">
+                <td>{{index}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.price}}</td>
+                <td><button @click="test(item)">-</button>{{item.count}}<button @click="add(item)">+</button></td>
+                <td><button @click="deleteItem(index)">移除</button></td>
+            </tr>
+        </table>
+        <div><span>总价：{{totalPrice}}</span></div>
+    </div>
+    <script src="./vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                list: [{
+                    name: 'iPhone7',
+                    price: '6188',
+                    count: 1,
+                }, {
+                    name: 'iPad Pro',
+                    price: '5888',
+                    count: 1,
+                }, {
+                    name: 'MacBook Pro',
+                    price: '21888',
+                    count: 1,
+                }]
+            },
+            computed: {
+                totalPrice: function() {
+                    console.log(this.list, 'this.list');
+                    let a =  this.list.reduce(function(x, y) {
+                        return x + y.price * y.count;
+                    }, 0);
+                    return a;
+                }
+            },
+            methods: {
+                test: function($event) {
+                    if ($event.count > 0) {
+                        $event.count--;
+                    }
+                },
+                add: function($event) {
+                    $event.count++;
+                },
+                deleteItem: function(index) {
+                    this.list.splice(index, 1);
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>
